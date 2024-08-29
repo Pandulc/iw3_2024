@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BackendApplication implements CommandLineRunner{
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(BackendApplication.class, args);
 		
 	}
@@ -24,20 +25,16 @@ public class BackendApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		/*
+
 		try {
-			Product p=new Product();
-			p.setProduct("Arroz");
-			p.setPrice(156.67);
-			productBusiness.add(p);
-			Product p1=productBusiness.load(p.getId());
-			Product p2=productBusiness.load(p.getProduct());
-			log.info(p1.toString());
-			log.info(p2.toString());
+			
+			Product p1=new Product(1, "Leche", true, 150);
+			productBusiness.update(p1);
+
 		} catch (Exception e) {
 			log.warn(e.getMessage());
-		}*/
-		
+		}
+
 	}
 
 }

@@ -97,12 +97,21 @@ public class ProductBusiness implements IProductBusiness {
 
 	@Override
 	public Product update(Product product) throws NotFoundException, BusinessException {
-		load(product.getId());
-		//load(product.getProduct()); CHacer todo para que esto funcione!!!!
+		Product existingProduct = load(product.getId());
+		// Buscamos alguna ocurrencia en la base de datos con el nombre del producto a actualizar
+		Optional<Product> productByName = productDAO.findByProduct(product.getProduct());
+
+		// Si encontramos un producto con dicho nombre y el ID
+		// es distinto al que se esta por actualizar, lanzamos la excepcion
+		if(productByName.isPresent() && productByName.get().getId() != product.getId()) {
+			throw BusinessException.builder()
+					.message("Ya existe un producto con el nombre " + product.getProduct() +
+							" y ID " + productByName.get().getId())
+					.build();
+		}
 		try {
 			return productDAO.save(product);
 		} catch (Exception e) {
-
 			log.error(e.getMessage(),e);
 			throw BusinessException.builder().ex(e).build();
 		}
